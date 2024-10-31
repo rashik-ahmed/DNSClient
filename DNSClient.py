@@ -2,7 +2,7 @@ import dns.resolver
 
 # Set the IP address of the local DNS server and a public DNS server
 local_host_ip = "127.0.0.1"
-public_dns_server = "1.1.1.1"  # Using Cloudflare's public DNS server
+real_name_server = "1.1.1.1"  # Using Cloudflare's public DNS server
 
 # Create a list of domain names to query - use a new set of domains
 domainList = ['openai.com.', 'example.org.', 'mit.edu.', 'stanford.edu.', 'python.org.']
@@ -12,16 +12,14 @@ def query_local_dns_server(domain, question_type):
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [local_host_ip]  # Local DNS resolver (localhost)
     answers = resolver.resolve(domain, question_type)  # Use the provided domain and question_type
-
     ip_address = answers[0].to_text()  # Get the first answer (IP address)
     return ip_address
 
 # Define a function to query a public DNS server for the IP address of a given domain name
 def query_dns_server(domain, question_type):
     resolver = dns.resolver.Resolver()
-    resolver.nameservers = [public_dns_server]  # Public DNS server (Cloudflare DNS)
+    resolver.nameservers = [real_name_server]  # Public DNS server
     answers = resolver.resolve(domain, question_type)  # Use the provided domain and question_type
-
     ip_address = answers[0].to_text()  # Get the first answer (IP address)
     return ip_address
 
